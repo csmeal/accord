@@ -2,7 +2,7 @@ import * as express from "express";
 import * as http from "http";
 import * as socketIo from "socket.io";
 
-import { GameMessage } from "../../models";
+import { GameMessage } from "./models";
 import { GameHandler } from './game-handler';
 
 export class Server {
@@ -11,7 +11,7 @@ export class Server {
     private server: any;
     private io: any;
     private port: string | number;
-    private game: GameHandler;
+    private game: GameHandler = new GameHandler();
 
     constructor() {
         this.createApp();
@@ -46,7 +46,9 @@ export class Server {
             console.log('Connected client on port %s.', this.port);
             socket.on('message', (m: any) => {
                 console.log('[server](message): %s', JSON.stringify(m));
-                this.io.emit('message', this.game.HandleAction(m));
+                let result: GameMessage = this.game.HandleAction(m);
+              //  console.log(result);
+                this.io.emit('message', result);
             });
 
             socket.on('disconnect', () => {

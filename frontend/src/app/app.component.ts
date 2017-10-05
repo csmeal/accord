@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Card,
   GameMessage,
   CardType,
+  GameEffect,
   GameAction,
   GameEntity,
   GameTrigger
@@ -25,11 +26,7 @@ export class AppComponent {
   message;
 
   title = 'Accord';
-  CARDS: Card[] = [
-    { text: "When this card enters the battlefield he is very nice.", name: 'Mr. Nice', cardType: CardType.Action, attack: 0, defense: 0, imageUrl: "https://s3.amazonaws.com/accord-image-assets/stock-photo-mr-really-happy-guy-102486863.jpg" },
-    { text: "While this card is in play, it is wednesday my dudes.", name: 'Creature Dude', cardType: CardType.Creature, attack: 2, defense: 3, imageUrl: "https://s3.amazonaws.com/accord-image-assets/it-is-wednesday-my-dudes-og.png" },
-    { text: "Do 3 damage to target creature or player", name: 'Lightning Bolt', cardType: CardType.Action, imageUrl: "https://s3.amazonaws.com/accord-image-assets/stock-vector-lightning-bolt-icon-vector-521257918.jpg" }
-  ];
+  player1Cards: Card[] = [];
 
   sendMessage(){
     console.log(this.message);
@@ -40,7 +37,17 @@ export class AppComponent {
   ngOnInit() {
     this.socketService.initSocket();
     this.connection = this.socketService.onMessage().subscribe(message => {
+      //console.log('message: ', message);
       this.messages.push(message);
+      console.log(message.name);
+      let actions = message.actions;
+      for (let i = 0; i < actions.length; i++){
+        console.log(actions[i].effect);
+        if (actions[i].effect === GameEffect.Draw){
+          this.player1Cards = this.player1Cards.concat(actions[i].card);
+        }
+      }
+      
     })
   }
   
@@ -53,6 +60,7 @@ export class AppComponent {
   }
   gameStart(){
     console.log('sdfsd');
+    this.player1Cards = [];
     let message: GameMessage = {
       name: "GameStart",
       actions: [],

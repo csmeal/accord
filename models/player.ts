@@ -7,5 +7,13 @@ export class Player{
     battlefield: Battlefield;
     maxMana: number;
     currentMana: number;
-    deck: Deck;
+    health: number;
+
+    MAX_CREATURE_COUNT: number = 5;
+    constructor(public deck: Deck){
+        this.maxMana = 0;
+        this.health = 25;
+        this.hand = {cards: []};
+        this.battlefield = new Battlefield(this.MAX_CREATURE_COUNT);
+    }
 }

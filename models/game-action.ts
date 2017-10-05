@@ -4,8 +4,8 @@ import { GameEffect,
     GameEntity } from '.';
 
 export  class GameAction{
-    gameEffect?: GameEffect;
-    gameEvent?: GameEvent;
+    effect: GameEffect;
+    event?: GameEvent;
     source: GameEntity;
     destination?: GameEntity;
     card?: Card;
