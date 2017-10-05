@@ -1,0 +1,10 @@
+Need to start with a very basic UI, simply for showing that the system works.
+Then we need to add a simple support for two players in one game (run frontend from two different browsers?)
+Next, need to add very simply actions for the player to perform (end turn, play minion, attack minion with other minion)
+As we do that, add in backend logic for each of those actions (gain a mana and card each turn).
+Then start adding in game logic (game starts, game ends with death, creatures can go face, etc.)
+Then add an actual web server, to host the game lobby, and add lobby logic.
+Add more complex and generic card features (battlecry, deathrattle, static effects, summoning sickness, draw, damage, heal, etc.)
+Move it all to the cloud.
+Make boards generic (rules for adding beginning of turn effects are generic)
+Alpha complete.

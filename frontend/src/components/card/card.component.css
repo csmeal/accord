@@ -1,0 +1,34 @@
+.card{
+    width: 200px;
+    height: 400px;
+}
+
+.card-header{
+    height: 50px;
+}
+
+.card-image{
+    height: 200px;
+
+}
+
+.card-content{
+    height:100px;
+}
+
+.card-footer{
+    height: 50px;
+}
+
+.left{
+    float: left;
+    text-align: left;
+}
+.middle{
+    overflow: hidden;
+}
+.right{
+    float: right;
+    text-align: right;
+}
+
