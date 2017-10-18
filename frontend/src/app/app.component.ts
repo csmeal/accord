@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { Card,
+import { 
+  Card,
+  Player,
   GameMessage,
   CardType,
   GameEffect,
+  GameAttribute,
   GameAction,
   GameEntity,
   GameTrigger
@@ -26,7 +29,7 @@ export class AppComponent {
   message;
 
   title = 'Accord';
-  player1Cards: Card[] = [];
+  player1: Player;
 
   sendMessage(){
     console.log(this.message);
@@ -40,13 +43,17 @@ export class AppComponent {
       //console.log('message: ', message);
       this.messages.push(message);
       console.log(message.name);
-      let actions = message.actions;
+      let actions: GameAction[] = message.actions;
       for (let i = 0; i < actions.length; i++){
         console.log(actions[i].effect);
-        if (actions[i].effect === GameEffect.Draw){
-          this.player1Cards = this.player1Cards.concat(actions[i].card);
+        let action: GameAction = actions[i];
+        if (action.effect === GameEffect.Draw){
+          this.player1.hand.cards = this.player1.hand.cards.concat(action.card);
         }
+        if (action.effect === GameEffect.SetAttribute && action!.destination.player === 1){
+          this.player1[action.attribute] = action.value;
       }
+    }
       
     })
   }
@@ -57,10 +64,20 @@ export class AppComponent {
 
   endTurn(){
     console.log('sss');
+    let message: GameMessage = {
+      name: "EndTurn",
+      actions: [],
+      trigger: GameTrigger.EndTurn,
+      triggerSource: {
+        player: 0
+      }
+    }
+    console.log(message);
+    this.socketService.send(message);
   }
   gameStart(){
     console.log('sdfsd');
-    this.player1Cards = [];
+    this.player1 = new Player(null);
     let message: GameMessage = {
       name: "GameStart",
       actions: [],

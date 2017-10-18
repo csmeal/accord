@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CardComponent } from "../components/card/card.component"
 import { HandComponent } from "../components/hand/hand.component"
+import { PlayerComponent } from "../components/player/player.component";
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
@@ -12,7 +13,8 @@ import { MdCardModule } from '@angular/material';
   declarations: [
     AppComponent,
     CardComponent,
-    HandComponent
+    HandComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

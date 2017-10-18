@@ -26,19 +26,79 @@ export class GameHandler {
             let actions: GameAction[] = [];
             for (let i: number = 0; i < this.startingHandSize;i++){
                 actions = actions.concat({
-                    source: {
+                    destination: {
                         player: 1
                     },
                     effect: GameEffect.Draw,
                     card: this.player1.deck.draw()
                 });
             }
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.SetAttribute,
+                value: 33,
+                attribute: "health"
+            });
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.SetAttribute,
+                value: 3,
+                attribute: "maxMana"
+            });
+
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.SetAttribute,
+                value: 44,
+                attribute: "currentMana"
+            });
             result = {
                 name: "Game Start",
                 actions: actions,
                 trigger: GameTrigger.GameStart
             }
 
+        } else if (message.trigger === GameTrigger.EndTurn){
+            this.player1.maxMana = this.player1.maxMana + 1;
+            this.player1.currentMana = this.player1.maxMana;
+            let actions: GameAction[] = [];
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.Draw,
+                card: this.player1.deck.draw()
+            });
+
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.SetAttribute,
+                value: this.player1.currentMana,
+                attribute: 'currentMana'
+            });
+
+            actions = actions.concat({
+                destination: {
+                    player: 1
+                },
+                effect: GameEffect.SetAttribute,
+                value: this.player1.maxMana,
+                attribute: 'maxMana'
+            });
+
+            result = {
+                name: "Turn Started",
+                actions: actions,
+                trigger: GameTrigger.EndTurn
+            }
         }
         console.log(result);
         return result;

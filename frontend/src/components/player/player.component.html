@@ -1,0 +1,6 @@
+<div *ngIf="player">
+   {{player.currentMana}}/{{player.maxMana}}
+   <hand [cards]=player.hand.cards></hand>
+   {{player.health}}
+     HP
+    </div>

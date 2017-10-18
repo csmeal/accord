@@ -6,7 +6,7 @@
     "author": "Luis Aviles",
     "license": "MIT",
     "scripts": {
-      "start": "node dist/index.js"
+      "start": "rm -rf ./src/models;cp -r ../models ./src/models;gulp build;node dist/index.js"
     },
     "dependencies": {
       "@types/express": "~4.0.36",
