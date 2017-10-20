@@ -29,8 +29,9 @@ export class GameHandler {
                     destination: {
                         player: 1
                     },
-                    effect: GameEffect.Draw,
-                    card: this.player1.deck.draw()
+                    effect: GameEffect.AddAttribute,
+                    value: this.player1.deck.draw(),
+                    attribute: 'hand'
                 });
             }
             actions = actions.concat({
@@ -68,15 +69,16 @@ export class GameHandler {
             this.player1.maxMana = this.player1.maxMana + 1;
             this.player1.currentMana = this.player1.maxMana;
             let actions: GameAction[] = [];
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },
-                effect: GameEffect.Draw,
-                card: this.player1.deck.draw()
+                effect: GameEffect.AddAttribute,
+                value: this.player1.deck.draw(),
+                attribute: "hand"
             });
 
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },
@@ -85,7 +87,7 @@ export class GameHandler {
                 attribute: 'currentMana'
             });
 
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },

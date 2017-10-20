@@ -1,8 +1,8 @@
-export enum GameEffect{
-    Draw,
+export enum GameEffect{   
     Damage,
     Heal,
     SetAttribute,
-    ModifyAttribute,
+    AddAttribute,
+    SubtractAttribute,
     EndTurn
 }

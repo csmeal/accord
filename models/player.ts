@@ -1,9 +1,10 @@
 import { Hand } from './hand';
 import { Battlefield } from './battlefield';
 import { Deck } from './deck';
+import { Card } from './card';
 
 export class Player{
-    hand: Hand;
+    hand: Card[];
     battlefield: Battlefield;
     maxMana: number;
     currentMana: number;
@@ -13,7 +14,7 @@ export class Player{
     constructor(public deck: Deck){
         this.maxMana = 0;
         this.health = 25;
-        this.hand = {cards: []};
+        this.hand = [];
         this.battlefield = new Battlefield(this.MAX_CREATURE_COUNT);
     }
 }

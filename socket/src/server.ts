@@ -2,7 +2,6 @@ import * as express from "express";
 import * as http from "http";
 import * as socketIo from "socket.io";
 
-import { GameMessage } from "./models";
 import { GameHandler } from './game-handler';
 
 export class Server {

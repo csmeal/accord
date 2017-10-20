@@ -29,7 +29,7 @@ export class AppComponent {
   message;
 
   title = 'Accord';
-  player1: Player;
+  players: Player[] = [];
 
   sendMessage(){
     console.log(this.message);
@@ -47,12 +47,16 @@ export class AppComponent {
       for (let i = 0; i < actions.length; i++){
         console.log(actions[i].effect);
         let action: GameAction = actions[i];
-        if (action.effect === GameEffect.Draw){
-          this.player1.hand.cards = this.player1.hand.cards.concat(action.card);
-        }
         if (action.effect === GameEffect.SetAttribute && action!.destination.player === 1){
-          this.player1[action.attribute] = action.value;
-      }
+          this.players[action.destination.player - 1][action.attribute] = action.value;
+        }
+        if (action.effect === GameEffect.AddAttribute){
+          if (typeof action.value === 'number'){
+            this.players[action.destination.player - 1][action.attribute] += action.value;
+          } else {
+            this.players[action.destination.player - 1][action.attribute].push(action.value);
+          }
+        }
     }
       
     })
@@ -77,7 +81,7 @@ export class AppComponent {
   }
   gameStart(){
     console.log('sdfsd');
-    this.player1 = new Player(null);
+    this.players = [new Player(null)];
     let message: GameMessage = {
       name: "GameStart",
       actions: [],

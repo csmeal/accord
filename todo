@@ -1,3 +1,10 @@
+ngrx
+move message handler to "common"
+board
+cast stuff
+targeting
+testing
+
 game lobby
 deck editting
 events from server
