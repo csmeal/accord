@@ -9,8 +9,7 @@ import {
 } from "./models";
 
 export class GameHandler {
-    player1: Player;
-    player2: Player;
+    players: Player[] = [];
     startingHandSize: number= 5;
     constructor(){
         
@@ -18,11 +17,35 @@ export class GameHandler {
     HandleAction(message: GameMessage): GameMessage {
         console.log(message);
         let result: GameMessage;
+        if (message.trigger === GameTrigger.PlayCard) {
+            let actions: GameAction[] = [];
+            let cardToPlay = this.players[0].hand[message.sourceValue];
+            if (cardToPlay){
+                if (cardToPlay.mana >= this.players[0].currentMana){
+                    actions.push({
+                        destination: {
+                            player: 1
+                        },
+                        effect: GameEffect.AddAttribute,
+                        value: cardToPlay,
+                        attribute: 'battlefield'
+                    });
+                    actions.push({
+                        destination: {
+                            player: 1
+                        },
+                        effect: GameEffect.SubtractAttribute,
+                        value: cardToPlay,
+                        attribute: 'hand'
+                    });
+                }
+            }
+        }
         if (message.trigger === GameTrigger.GameStart){
-            this.player1 = new Player(this.GeneratePlayer1Deck());
-            this.player2 = new Player(this.GeneratePlayer1Deck());
-            this.player1.deck.availableList = this.player1.deck.startingList;
-            this.player1.deck.shuffle();
+            this.players.push(new Player(this.GeneratePlayer1Deck()));
+            this.players.push(new Player(this.GeneratePlayer1Deck()));
+            this.players[0].deck.availableList = this.players[0].deck.startingList;
+            this.players[0].deck.shuffle();
             let actions: GameAction[] = [];
             for (let i: number = 0; i < this.startingHandSize;i++){
                 actions = actions.concat({
@@ -30,11 +53,11 @@ export class GameHandler {
                         player: 1
                     },
                     effect: GameEffect.AddAttribute,
-                    value: this.player1.deck.draw(),
+                    value: this.players[0].deck.draw(),
                     attribute: 'hand'
                 });
             }
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },
@@ -42,7 +65,7 @@ export class GameHandler {
                 value: 33,
                 attribute: "health"
             });
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },
@@ -51,7 +74,7 @@ export class GameHandler {
                 attribute: "maxMana"
             });
 
-            actions = actions.concat({
+            actions.push({
                 destination: {
                     player: 1
                 },
@@ -66,15 +89,15 @@ export class GameHandler {
             }
 
         } else if (message.trigger === GameTrigger.EndTurn){
-            this.player1.maxMana = this.player1.maxMana + 1;
-            this.player1.currentMana = this.player1.maxMana;
+            this.players[0].maxMana = this.players[0].maxMana + 1;
+            this.players[0].currentMana = this.players[0].maxMana;
             let actions: GameAction[] = [];
             actions.push({
                 destination: {
                     player: 1
                 },
                 effect: GameEffect.AddAttribute,
-                value: this.player1.deck.draw(),
+                value: this.players[0].deck.draw(),
                 attribute: "hand"
             });
 
@@ -83,7 +106,7 @@ export class GameHandler {
                     player: 1
                 },
                 effect: GameEffect.SetAttribute,
-                value: this.player1.currentMana,
+                value: this.players[0].currentMana,
                 attribute: 'currentMana'
             });
 
@@ -92,7 +115,7 @@ export class GameHandler {
                     player: 1
                 },
                 effect: GameEffect.SetAttribute,
-                value: this.player1.maxMana,
+                value: this.players[0].maxMana,
                 attribute: 'maxMana'
             });
 

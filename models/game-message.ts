@@ -6,4 +6,6 @@ export class GameMessage {
     actions: GameAction[];
     trigger: GameTrigger;
     triggerSource?: GameEntity;
+    sourceAttribue?: string;
+    sourceValue?: number;
 }

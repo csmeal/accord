@@ -1,10 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <button (click)="endTurn()">End Turn</button>
 <button (click)="gameStart()">GameStart</button>
-
+<button (click)="playMinion(0)">Play 1</button>
+<button (click)="playMinion(1)">Play 2</button>
+<button (click)="playMinion(2)">Play 3</button>
 <div *ngFor="let message of messages">
     {{message.text}}
   </div>
   <input [(ngModel)]="message"  /><button (click)="sendMessage()">Send</button>
-<player [player]=players[0]></player>
+<game-board [players]=players>
+</game-board>
+
 

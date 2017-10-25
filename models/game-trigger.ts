@@ -4,5 +4,6 @@ export enum GameTrigger {
     Aura,
     OnDraw,
     GameStart,
-    EndTurn
+    EndTurn,
+    PlayCard
 }

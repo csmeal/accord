@@ -6,6 +6,7 @@ import { Card } from './card';
 export class Player{
     hand: Card[];
     battlefield: Battlefield;
+    createures: Card[]
     maxMana: number;
     currentMana: number;
     health: number;

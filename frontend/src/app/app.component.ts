@@ -90,5 +90,20 @@ export class AppComponent {
     console.log(message);
     this.socketService.send(message);
   }
+
+  playMinion(id: number){
+    let message: GameMessage = {
+      name: "Play minion",
+      actions: [],
+      trigger: GameTrigger.PlayCard,
+      triggerSource: {
+        player: 0
+      },
+      sourceAttribue: 'hand',
+      sourceValue: id
+    }
+    console.log(message);
+    this.socketService.send(message);
+  }
 }
 
