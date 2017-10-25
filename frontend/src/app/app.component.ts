@@ -38,23 +38,35 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    this.players = [new Player(null), new Player(null)];
+    
     this.socketService.initSocket();
     this.connection = this.socketService.onMessage().subscribe(message => {
       //console.log('message: ', message);
+      if (message === undefined) return;
       this.messages.push(message);
       console.log(message.name);
       let actions: GameAction[] = message.actions;
       for (let i = 0; i < actions.length; i++){
-        console.log(actions[i].effect);
+        console.log(actions[i]);
         let action: GameAction = actions[i];
         if (action.effect === GameEffect.SetAttribute && action!.destination.player === 1){
           this.players[action.destination.player - 1][action.attribute] = action.value;
         }
         if (action.effect === GameEffect.AddAttribute){
-          if (typeof action.value === 'number'){
+          if (typeof this.players[action.destination.player - 1][action.attribute] === 'number'){
             this.players[action.destination.player - 1][action.attribute] += action.value;
           } else {
             this.players[action.destination.player - 1][action.attribute].push(action.value);
+          }
+        }
+        if (action.effect === GameEffect.SubtractAttribute){
+          console.log('subtracting out: ' , action.value);
+          console.log('from: ', action.attribute)
+          if (typeof this.players[action.destination.player - 1][action.attribute] === 'number'){
+            this.players[action.destination.player - 1][action.attribute] -= action.value;
+          } else {
+            this.players[action.destination.player - 1][action.attribute].splice(action.value,1);
           }
         }
     }
@@ -81,7 +93,7 @@ export class AppComponent {
   }
   gameStart(){
     console.log('sdfsd');
-    this.players = [new Player(null)];
+    this.players = [new Player(null), new Player(null)];
     let message: GameMessage = {
       name: "GameStart",
       actions: [],
