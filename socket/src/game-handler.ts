@@ -60,6 +60,7 @@ export class GameHandler {
                 break;
             }
             case GameTrigger.GameStart: {
+                this.players = [];
                 this.players.push(new Player(this.GeneratePlayer1Deck()));
                 this.players.push(new Player(this.GeneratePlayer1Deck()));
                 this.players[0].deck.availableList = this.players[0].deck.startingList;

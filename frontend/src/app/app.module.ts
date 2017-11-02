@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
 
-import { MdCardModule } from '@angular/material';
+import { MatCardModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { MdCardModule } from '@angular/material';
   ],
   imports: [
     BrowserModule,
-    MdCardModule,
+    MatCardModule,
     FormsModule
   ],
   providers: [
