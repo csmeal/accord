@@ -1,4 +1,10 @@
-
+frontend/
+models/
+socket/
+todo/
+**/lib/
+node_modules/*
+*/node_modules
 node_modules/
 built/*
 tests/cases/rwc/*
