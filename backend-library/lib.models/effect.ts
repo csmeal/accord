@@ -1,4 +1,4 @@
-import { GameObject, Cost } from '.';
+import { GameObject, Cost, Player } from '.';
 
 export enum EffectType {
   static,
@@ -6,14 +6,20 @@ export enum EffectType {
   triggered
 }
 
-export class Effect implements GameObject {
-  name: string;
-
-  effectType: EffectType;
-
-  owener: GameObject;
+export interface Effect extends GameObject {
+  effect: () => boolean;
 }
 
-export class ActivatedAbility extends Effect {
+export interface ActivatedEffect extends Effect {
   cost: [Cost];
+  targets: [GameObject];
+  type: 'ActivatedEffect';
+}
+
+export interface TriggeredEffect extends Effect {
+  type: 'TriggeredEffect';
+}
+
+export interface StaticEffect extends Effect {
+  type: 'StaticEffect';
 }
