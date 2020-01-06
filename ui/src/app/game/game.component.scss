@@ -1,0 +1,32 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  height: 1000px;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.one {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  height: 25%;
+}
+.two {
+  grid-column: 1 / 4;
+  grid-row: 2;
+  height: 25%;
+}
+.three {
+  grid-column: 1 / 4;
+  grid-row: 3;
+  height: 25%;
+}
+.four {
+  grid-column: 1 / 4;
+  grid-row: 4;
+  height: 25%;
+}

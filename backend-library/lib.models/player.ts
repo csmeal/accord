@@ -32,6 +32,6 @@ export class HearthstonePlayer extends Player {
     this.life = 30;
     this.hand = new Zone(10);
     this.graveyard = new Zone();
-    this.battlefield = new Zone(5);
+    this.battlefield = new BattleField(5);
   }
 }
