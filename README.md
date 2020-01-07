@@ -1,6 +1,7 @@
 # accord
 
 Short term:
+
 TODO: Add socket command parser
 TODO: Make Parser an interface
 TODO: Add end turn command
