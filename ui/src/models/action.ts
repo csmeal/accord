@@ -1,8 +1,12 @@
-import { HearthstonePlayer } from '.';
-import { Zone } from '../../models';
+import { Player, HearthstonePlayer, Card, Id } from '.';
+import { Zone } from './zone';
 import { HearthstoneGame } from './game';
 import { Creature } from './card';
-import { Action, Id, Card, Game } from '../../models';
+
+export interface ActionTarget {
+  playerId: Id;
+  objectId: Id;
+}
 
 export class DamageCreature implements Action {
   name = 'doDamage';
@@ -17,7 +21,7 @@ export class DamageCreature implements Action {
     });
   }
 
-  effect = (game: Game) => this.doDamage();
+  effect = (game: HearthstoneGame) => this.doDamage();
   doDamage = (): boolean => {
     this.creature.damageTaken += this.damage;
     return true;
@@ -49,6 +53,12 @@ export class CreatureAttackCreature implements Action {
     );
     return true;
   };
+}
+
+export interface Action {
+  name: string;
+
+  effect: (game: HearthstoneGame) => boolean;
 }
 
 export class MoveCard implements Action {
@@ -84,7 +94,7 @@ export class DrawCard implements Action {
     this.playerId = playerId;
   }
 
-  effect = (game: Game) => {
+  effect = (game: HearthstoneGame) => {
     console.log('drawing card');
     const player = game.players.get(this.playerId);
     if (player.deck.cards.size <= 0) {

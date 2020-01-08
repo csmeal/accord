@@ -1,39 +1,17 @@
-import { GameObject, Player, Effect } from '.';
 import { v4 as uuid } from 'uuid';
-import { Card, Creature } from './card';
-import { Id } from './gameObject';
+import { Id, Card, Effect, Zone } from '../../models';
 
-export class Zone {
-  id: string;
-  type: string;
-  maxCards: number | null;
-  effets: Effect[];
+export class HearthstoneZone implements Zone {
+  id: Id;
   cards: Map<string, Card>;
+  maxCards: number;
+  effects: Effect[];
+  type: string;
 
-  constructor(maxCards: number | null = null) {
+  constructor(map: Map<string, Card> = null, maxCards: number | null = null) {
     this.id = uuid();
-    this.cards = new Map<string, Card>();
-    this.effets = [];
+    this.cards = map || new Map<string, Card>();
+    this.effects = [];
     this.maxCards = maxCards;
   }
-}
-
-export class Deck extends Zone {
-  constructor(cards: Map<string, Card>) {
-    super(null);
-    this.cards = cards;
-  }
-}
-
-export class HearthstoneDeck extends Deck {
-  constructor(cards: Card[]) {
-    const result = new Map<Id, Card>();
-    cards.map(card => result.set(card.id, card));
-
-    super(result);
-  }
-}
-
-export class BattleField extends Zone {
-  cards: Map<Id, Creature>;
 }

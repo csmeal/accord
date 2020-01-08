@@ -1,17 +1,22 @@
-import { HearthstoneZone, HearthstonePlayer } from '.';
-import { Command } from '../../models';
+import { Player, Zone, HearthstonePlayer, Action, Id } from '.';
+import { Command } from './command';
+import { Deck, HearthstoneDeck } from './zone';
 
-import { Creature } from './card';
+import { Creature, Card } from './card';
 import { MoveCard } from './action';
 
-import { Game, Action, Id, Player } from '../../models';
+export interface Game {
+  name: string;
+
+  players: Map<Id, Player>;
+
+  zones: Zone[];
+
+  turnOrder: number[];
+}
 
 export class HearthstoneGame implements Game {
   name: 'hearthstone';
-  graveyard: HearthstoneZone;
-  hand: HearthstoneZone;
-  deck: HearthstoneZone;
-  battlefield: HearthstoneZone;
 
   constructor(player1: HearthstonePlayer, player2: HearthstonePlayer) {
     this.players = new Map<Id, HearthstonePlayer>();
@@ -23,6 +28,8 @@ export class HearthstoneGame implements Game {
   actionQueue: Action[];
 
   players: Map<Id, HearthstonePlayer>;
+
+  zones: Zone[];
 
   turnOrder = [0, 1];
 
@@ -66,7 +73,10 @@ export function range(end, start = 1) {
   return new Array(end - start + 1).fill(undefined).map((_, i) => i + start);
 }
 
-export const GeneratePlayer = (name = 'test1'): Player =>
+export const GenerateGame: () => HearthstoneGame = () =>
+  new HearthstoneGame(GeneratePlayer('test1'), GeneratePlayer('test2'));
+
+export const GeneratePlayer = (name = 'test1'): HearthstonePlayer =>
   new HearthstonePlayer(
     name,
     range(30).map(n => new Creature(`Card ${n.toString()}`, n, n, n))

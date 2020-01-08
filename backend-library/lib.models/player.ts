@@ -1,37 +1,29 @@
-import { GameObject, Zone } from '.';
 import { v4 as uuid } from 'uuid';
-import { Id, Card } from '.';
-import { Deck, BattleField } from './zone';
-export abstract class Player implements GameObject {
-  id: string;
-  type = 'player';
-  name: string;
-  owner: null;
-  zones: Zone[];
-  life: number;
 
-  constructor(name: string) {
-    this.name = name;
-    this.id = uuid();
-  }
-}
+import { HearthstoneZone } from './zone';
 
-export class HearthstonePlayer extends Player {
+import { Zone, Card, Id, Player } from '../../models';
+
+export class HearthstonePlayer implements Player {
   deck: Zone;
   hand: Zone;
   graveyard: Zone;
-  battlefield: BattleField;
+  battlefield: HearthstoneZone;
   activeMana: number;
   maxMana: number;
+  name: string;
+  id: Id;
+  life: number;
 
   constructor(name: string, cards: Card[]) {
-    super(name);
+    this.name = name;
     const deck = new Map<Id, Card>();
     cards.map(c => deck.set(c.id, c));
-    this.deck = new Deck(deck);
+    this.deck = new HearthstoneZone(deck);
     this.life = 30;
-    this.hand = new Zone(10);
-    this.graveyard = new Zone();
-    this.battlefield = new BattleField(5);
+    this.hand = new HearthstoneZone(null, 10);
+    this.graveyard = new HearthstoneZone();
+    this.battlefield = new HearthstoneZone(null, 5);
+    this.id = uuid();
   }
 }

@@ -1,11 +1,28 @@
-import { HearthstoneGame, MoveCard, Creature, HearthstonePlayer } from '.';
+import {
+  Player,
+  Card,
+  Game,
+  HearthstoneGame,
+  Action,
+  MoveCard,
+  Creature,
+  HearthstonePlayer,
+  Id
+} from '.';
 import { DrawCard, CreatureAttackCreature } from './action';
 import { GetGameSummary } from './game';
-import { Card, Action, Id, Game, Command } from '../../models';
 
 // the base command class or interface
+export abstract class Command {
+  playerIndex: Id;
+  constructor(playerIndex: Id) {
+    this.playerIndex = playerIndex;
+  }
+  abstract commandIsLegal: (game: Game) => boolean;
+  abstract handle: (game: Game) => Action[];
+}
 
-export class AttackCreatureCommand implements Command {
+export class AttackCreatureCommand extends Command {
   attacker: Creature;
   defender: Creature;
   constructor(
@@ -14,6 +31,7 @@ export class AttackCreatureCommand implements Command {
     attackerId: Id,
     defenderId: Id
   ) {
+    super(playerId);
     const player = game.players.get(playerId);
     let player2;
     Array.from(game.players.keys()).forEach(element => {
@@ -41,10 +59,11 @@ export class AttackCreatureCommand implements Command {
   };
 }
 
-export class StartGameCommand implements Command {
+export class StartGameCommand extends Command {
+  game: HearthstoneGame;
+
   commandIsLegal = (game: HearthstoneGame): boolean => true;
   handle = (game: HearthstoneGame) => {
-    console.log(game.players);
     const id1 = Array.from(game.players.values())[0].id;
     const id2 = Array.from(game.players.values())[1].id;
     const actions: Action[] = [
@@ -61,11 +80,12 @@ export class StartGameCommand implements Command {
   };
 }
 
-export class PlayCreatureCommand implements Command {
+export class PlayCreatureCommand extends Command {
   card: Card;
+  cardId: string;
   player: HearthstonePlayer;
   commandIsLegal = (game: HearthstoneGame): boolean => {
-    this.player = game.players.get(this.playerId);
+    this.player = game.players.get(this.playerIndex);
     this.card = this.player.hand.cards.get(this.cardId);
     if (
       !this.card ||
@@ -86,5 +106,8 @@ export class PlayCreatureCommand implements Command {
     );
     return [move];
   };
-  constructor(private playerId: Id, private cardId: Id) {}
+  constructor(playerId: Id, cardId: Id) {
+    super(playerId);
+    this.cardId = cardId;
+  }
 }

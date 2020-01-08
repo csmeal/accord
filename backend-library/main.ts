@@ -1,3 +1,3 @@
-import { TestController } from './lib.controller.ts/test.controller';
+import { CliGameHandler } from './lib.controller.ts/cli.controller';
 
-new TestController().loop();
+new CliGameHandler().loop();

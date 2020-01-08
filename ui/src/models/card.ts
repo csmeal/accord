@@ -1,7 +1,7 @@
+import { GameObject } from './gameObject';
 import { v4 as uuid } from 'uuid';
-import { Card } from '../../models';
 
-export abstract class BaseCard implements Card {
+export abstract class Card implements GameObject {
   name: string;
   id: string;
   mana: number;
@@ -16,7 +16,7 @@ export abstract class BaseCard implements Card {
   }
 }
 
-export class Creature extends BaseCard {
+export class Creature extends Card {
   type = 'creature';
   attack: number;
   defense: number;
