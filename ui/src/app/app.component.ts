@@ -4,8 +4,11 @@ import {
   Creature,
   Zone,
   GeneratePlayer,
-  HearthstonePlayer
+  HearthstonePlayer,
+  HearthstoneGame,
+  Game
 } from '../models';
+import { SocketService } from './socket.service';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +17,26 @@ import {
 })
 export class AppComponent implements OnInit {
   title = 'ui';
+  game: HearthstoneGame;
   hand: Zone;
-  constructor() {
-    const p = GeneratePlayer('test') as HearthstonePlayer;
+  connection;
+  constructor(private socketService: SocketService) {}
 
-    const creatures = [
-      new Creature('Test Name', 1, 2, 3),
-      new Creature('Test Name', 1, 2, 3),
-      new Creature('Test Name', 1, 2, 3)
-    ];
-    creatures.map(c => p.hand.cards.set(c.id, c));
-    this.hand = p.hand;
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
+  ngOnInit() {
+    this.socketService.initSocket();
+    this.connection = this.socketService.onMessage().subscribe(this.onMessage);
+    this.socketService.send('wait,,,');
   }
 
-  ngOnInit() {}
+  onMessage(message: any) {
+    // console.log(message);
+    if (message.data) {
+      console.log('setting game ');
+      this.game = message.data;
+    }
+    console.log(this.game);
+  }
 }

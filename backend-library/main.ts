@@ -1,3 +1,5 @@
 import { CliGameHandler } from './lib.controller.ts/cli.controller';
+import { Server } from './lib.controller.ts/socket.controller';
 
-new CliGameHandler().loop();
+const server = new Server();
+// new CliGameHandler().loop();

@@ -12,16 +12,25 @@ import { BattlefieldComponent } from './battlefield/battlefield.component';
 import { GraveyardComponent } from './graveyard/graveyard.component';
 import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
+import { SocketService } from './socket.service';
 
 @NgModule({
-  declarations: [AppComponent, CardComponent, HandComponent, BattlefieldComponent, GraveyardComponent, GameComponent, PlayerComponent],
+  declarations: [
+    AppComponent,
+    CardComponent,
+    HandComponent,
+    BattlefieldComponent,
+    GraveyardComponent,
+    GameComponent,
+    PlayerComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

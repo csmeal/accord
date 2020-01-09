@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import * as socketIo from 'socket.io';
+import { HearthstoneController } from './cli.controller';
 
 export class Server {
   public static readonly PORT: number = 5000;
@@ -8,6 +9,7 @@ export class Server {
   private server: any;
   private io: any;
   private port: string | number;
+  private controller = new HearthstoneController();
 
   constructor() {
     this.createApp();
@@ -24,6 +26,8 @@ export class Server {
   private createServer(): void {
     this.server = http.createServer(this.app);
   }
+
+  private handleMessage(message: string): void {}
 
   private config(): void {
     this.port = Server.PORT;
@@ -42,9 +46,13 @@ export class Server {
       console.log('Connected client on port %s.', this.port);
       socket.on('message', (m: any) => {
         console.log('[server](message): %s', JSON.stringify(m));
-        let result: GameMessage = this.game.HandleAction(m);
+
+        // let result: GameMessage = this.game.HandleAction(m);
         //  console.log(result);
-        this.io.emit('message', result);
+
+        this.io.emit('message', {
+          data: this.controller.game
+        });
       });
 
       socket.on('disconnect', () => {

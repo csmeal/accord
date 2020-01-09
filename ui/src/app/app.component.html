@@ -1,5 +1,6 @@
 <!-- <ul *ngFor="let card of creatures">
   <app-card [card]="card" class="hand-card"> </app-card>
 </ul> -->
-<game></game>>
+<game *ngIf="game?.players" [game]="game || null"></game>
+<p *ngIf="!game">No game loaded</p>
 <router-outlet></router-outlet>
