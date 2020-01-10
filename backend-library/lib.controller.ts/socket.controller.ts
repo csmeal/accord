@@ -2,6 +2,8 @@ import * as express from 'express';
 import * as http from 'http';
 import * as socketIo from 'socket.io';
 import { HearthstoneController } from './cli.controller';
+import { Command } from '../../models';
+import { StartGameCommand } from '../lib.models';
 
 export class Server {
   public static readonly PORT: number = 5000;
@@ -27,7 +29,19 @@ export class Server {
     this.server = http.createServer(this.app);
   }
 
-  private handleMessage(message: string): void {}
+  private handleMessage(message: any): void {
+    let command: Command;
+    if (message.command === 'sg') {
+      command = new StartGameCommand();
+    }
+    if (command) {
+      console.log(command);
+      this.controller.processCommand(command);
+    }
+    this.io.emit('message', {
+      data: this.controller.game
+    });
+  }
 
   private config(): void {
     this.port = Server.PORT;
@@ -49,10 +63,7 @@ export class Server {
 
         // let result: GameMessage = this.game.HandleAction(m);
         //  console.log(result);
-
-        this.io.emit('message', {
-          data: this.controller.game
-        });
+        this.handleMessage(m);
       });
 
       socket.on('disconnect', () => {

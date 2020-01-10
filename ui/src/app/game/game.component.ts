@@ -4,8 +4,10 @@ import {
   GenerateGame,
   HearthstonePlayer,
   Creature,
-  range
+  range,
+  GeneratePlayer
 } from 'src/models';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'game',
@@ -16,20 +18,34 @@ export class GameComponent implements OnInit {
   @Input() game: HearthstoneGame;
   player1: HearthstonePlayer;
   player2: HearthstonePlayer;
+  display: boolean;
 
-  constructor() {}
+  constructor(private socketService: SocketService) {}
 
+  private setGame(g) {
+    console.log('received game');
+    console.log(g);
+    try {
+      this.game = g;
+      this.player1 = Array.from(this.game.players.values())[0];
+      this.player2 = Array.from(this.game.players.values())[1];
+      console.log(this.game);
+    } catch (e) {
+      console.log('error:');
+      console.log(e);
+    }
+  }
   ngOnInit() {
-    // this.game = GenerateGame();
-    // this.player1 = Array.from(this.game.players.values())[0];
-    // this.player2 = Array.from(this.game.players.values())[1];
-    // [this.player1, this.player2].map(p =>
-    //   range(3).map(n => {
-    //     [p.battlefield, p.graveyard, p.hand].map(z => {
-    //       const card = new Creature(`test ${z.type}${n.toString()}`, n, n, n);
-    //       z.cards.set(card.id, card);
-    //     });
-    //   })
-    // );
+    this.game = GenerateGame();
+    this.player1 = GeneratePlayer();
+    this.player2 = GeneratePlayer();
+    this.socketService.onMessage().subscribe((m: any) => {
+      this.setGame(m.data);
+    });
+    this.socketService.send({
+      command: 'sg'
+    });
+
+    this.display = true;
   }
 }

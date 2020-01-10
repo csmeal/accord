@@ -1,6 +1,11 @@
 <!-- <ul *ngFor="let card of creatures">
   <app-card [card]="card" class="hand-card"> </app-card>
 </ul> -->
-<game *ngIf="game?.players" [game]="game || null"></game>
-<p *ngIf="!game">No game loaded</p>
+<!-- <game *ngIf="game?.players" [game]="game || null"></game>
+<p *ngIf="!game">No game loaded</p> -->
+
+<game *ngIf="show" [game]="game"></game>
+
+<p *ngIf="!show">NOPE</p>
+<button (click)="flipShow()">click me</button>
 <router-outlet></router-outlet>

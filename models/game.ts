@@ -1,4 +1,4 @@
-import { Player, Zone, Id } from '.';
+import { Player, Zone, Id, Container } from '.';
 
 export interface Game {
   name: string;

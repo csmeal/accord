@@ -18,9 +18,15 @@ import { SocketService } from './socket.service';
 export class AppComponent implements OnInit {
   title = 'ui';
   game: HearthstoneGame;
+  show: boolean = false;
   hand: Zone;
   connection;
   constructor(private socketService: SocketService) {}
+
+  flipShow() {
+    console.log(this.show);
+    this.show = !this.show;
+  }
 
   ngOnDestroy() {
     this.connection.unsubscribe();
