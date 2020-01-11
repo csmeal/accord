@@ -7,18 +7,24 @@ export class Zone {
   id: string;
   type: string;
   maxCards: number | null;
-  effets: Effect[];
+  effects: Effect[];
   cards: Map<string, Card>;
 
   constructor(maxCards: number | null = null, type: string = 'unknown') {
     this.id = uuid();
     this.cards = new Map<string, Card>();
-    this.effets = [];
+    this.effects = [];
     this.maxCards = maxCards;
     this.type = type;
   }
 }
-
+export interface UiZone {
+  id: string;
+  type: string;
+  maxCards: number | null;
+  effects: Effect[];
+  cards: Card[];
+}
 export class Deck extends Zone {
   constructor(cards: Map<string, Card>) {
     super(null, 'deck');

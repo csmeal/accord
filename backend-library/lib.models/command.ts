@@ -1,5 +1,12 @@
 import { HearthstoneGame, MoveCard, Creature, HearthstonePlayer } from '.';
-import { DrawCard, CreatureAttackCreature } from './action';
+import {
+  DrawCard,
+  CreatureAttackCreature,
+  SetMaxMana,
+  SetActiveMana,
+  SetPlayerActive,
+  EndTurn
+} from './action';
 import { GetGameSummary } from './game';
 import { Card, Action, Id, Game, Command } from '../../models';
 
@@ -41,6 +48,22 @@ export class AttackCreatureCommand implements Command {
   };
 }
 
+export class EndTurnCommand implements Command {
+  commandIsLegal = (game: HearthstoneGame): boolean => {
+    console.log('ending turn for', this.playerId);
+    console.log(Array.from(game.players.keys()));
+    console.log(game.players.get(this.playerId).active);
+    return !!game.players.get(this.playerId)?.active;
+  };
+
+  constructor(private playerId: Id) {}
+  handle = (game: HearthstoneGame) => {
+    const actions: Action[] = [];
+    actions.push(new EndTurn(this.playerId));
+    return actions;
+  };
+}
+
 export class StartGameCommand implements Command {
   commandIsLegal = (game: HearthstoneGame): boolean => true;
   handle = (game: HearthstoneGame) => {
@@ -54,7 +77,8 @@ export class StartGameCommand implements Command {
       new DrawCard(id2),
       new DrawCard(id2),
       new DrawCard(id2),
-      new DrawCard(id2)
+      new DrawCard(id2),
+      new EndTurn(id2)
     ];
 
     return actions;

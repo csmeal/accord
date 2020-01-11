@@ -1,4 +1,4 @@
-import { GameObject, Cost, Player } from '.';
+import { GameObject, Player } from '.';
 
 export enum EffectType {
   static,
@@ -11,7 +11,6 @@ export interface Effect extends GameObject {
 }
 
 export interface ActivatedEffect extends Effect {
-  cost: [Cost];
   targets: [GameObject];
   type: 'ActivatedEffect';
 }

@@ -5,7 +5,10 @@ import {
   HearthstonePlayer,
   Creature,
   range,
-  GeneratePlayer
+  GeneratePlayer,
+  UiGame,
+  ConvertGameToUi,
+  Game
 } from 'src/models';
 import { SocketService } from '../socket.service';
 
@@ -15,16 +18,15 @@ import { SocketService } from '../socket.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  @Input() game: HearthstoneGame;
+  @Input() game: UiGame;
   player1: HearthstonePlayer;
   player2: HearthstonePlayer;
   display: boolean;
 
   constructor(private socketService: SocketService) {}
-  const;
+
   private setGame(g) {
     // console.log('received game');
-    console.log(g);
     try {
       this.player1 = g.players[0];
       this.player2 = g.players[1];
@@ -34,8 +36,9 @@ export class GameComponent implements OnInit {
       console.log(e);
     }
   }
+
   ngOnInit() {
-    this.game = GenerateGame();
+    this.game = ConvertGameToUi(GenerateGame() as any);
     this.player1 = GeneratePlayer();
     this.player2 = GeneratePlayer();
     this.socketService.onMessage().subscribe((m: any) => {

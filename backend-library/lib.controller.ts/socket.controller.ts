@@ -3,7 +3,7 @@ import * as http from 'http';
 import * as socketIo from 'socket.io';
 import { HearthstoneController } from './cli.controller';
 import { Command, Game, UiGame } from '../../models';
-import { StartGameCommand } from '../lib.models';
+import { StartGameCommand, EndTurnCommand } from '../lib.models';
 
 export const ConvertGameToUi = (game: Game): UiGame => {
   return {
@@ -57,16 +57,18 @@ export class Server {
 
   private handleMessage(message: any): void {
     let command: Command;
+    console.log(message);
     if (message.command === 'sg') {
       command = new StartGameCommand();
+    } else if (message.command === 'et') {
+      command = new EndTurnCommand(message.playerId);
     }
     if (command) {
       console.log(command);
       this.controller.processCommand(command);
     }
     console.log('emitting message');
-    const a = Array.from(this.controller.game.players.values());
-    console.log(a[0].hand.cards);
+
     this.io.emit('message', {
       data: ConvertGameToUi(this.controller.game)
     });

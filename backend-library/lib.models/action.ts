@@ -75,6 +75,61 @@ export class MoveCard implements Action {
     return false;
   };
 }
+export class EndTurn implements Action {
+  name: 'endTurnAction';
+
+  constructor(private playerId: Id) {}
+
+  effect = (game: Game) => {
+    const p1 = game.players.get(this.playerId);
+    const p2 = Array.from(game.players.values()).filter(
+      p => p.id !== this.playerId
+    )[0];
+
+    new SetPlayerActive(p1.id, false).effect(game);
+    new SetPlayerActive(p2.id, true).effect(game);
+    new SetMaxMana(p2.id, p2.maxMana + 1).effect(game);
+    new SetActiveMana(p2.id, p2.maxMana).effect(game);
+    new DrawCard(p2.id).effect(game);
+
+    return true;
+  };
+}
+
+export class SetPlayerActive implements Action {
+  name: 'setPlayerActive';
+
+  constructor(private playerId: Id, private active: boolean) {}
+
+  effect = (game: Game) => {
+    game.players.get(this.playerId).active = this.active;
+    return true;
+  };
+}
+
+export class SetMaxMana implements Action {
+  name: 'setMaxMana';
+
+  constructor(private playerId: Id, private mana: number) {}
+
+  effect = (game: Game) => {
+    const p = game.players.get(this.playerId);
+    p.maxMana = this.mana;
+    return true;
+  };
+}
+
+export class SetActiveMana implements Action {
+  name: 'setActiveMana';
+
+  constructor(private playerId: Id, private mana: number) {}
+
+  effect = (game: Game) => {
+    const p = game.players.get(this.playerId);
+    p.activeMana = this.mana;
+    return true;
+  };
+}
 
 export class DrawCard implements Action {
   name: 'drawCard';

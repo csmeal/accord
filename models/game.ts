@@ -4,14 +4,6 @@ export interface Game {
   name: string;
 
   players: Map<Id, Player>;
-
-  hand: Zone;
-
-  graveyard: Zone;
-
-  deck: Zone;
-
-  battlefield: Zone;
 }
 
 export const ConvertGameToUi = (game: Game): UiGame => {

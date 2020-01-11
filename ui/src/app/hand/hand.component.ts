@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Zone } from '../../models';
+import { UiZone } from '../../models';
 
 @Component({
   selector: 'hand',
@@ -7,5 +7,5 @@ import { Zone } from '../../models';
   styleUrls: ['./hand.component.scss']
 })
 export class HandComponent {
-  @Input() hand: Zone;
+  @Input() hand: UiZone;
 }

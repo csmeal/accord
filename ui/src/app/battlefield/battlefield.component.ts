@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HearthstonePlayer, BattleField } from 'src/models';
+import { UiZone } from '../../../../models';
 
 @Component({
   selector: 'battlefield',
@@ -7,7 +7,7 @@ import { HearthstonePlayer, BattleField } from 'src/models';
   styleUrls: ['./battlefield.component.scss']
 })
 export class BattlefieldComponent implements OnInit {
-  @Input() battlefield: BattleField;
+  @Input() battlefield: UiZone;
 
   constructor() {}
 

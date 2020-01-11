@@ -9,11 +9,12 @@ export class HearthstonePlayer implements Player {
   hand: Zone;
   graveyard: Zone;
   battlefield: HearthstoneZone;
-  activeMana: number;
-  maxMana: number;
+  activeMana: number = 0;
+  maxMana: number = 0;
   name: string;
   id: Id;
   life: number;
+  active: boolean = true;
 
   constructor(name: string, cards: Card[]) {
     this.name = name;

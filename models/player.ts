@@ -8,6 +8,9 @@ export interface Player {
   deck: Zone;
   battlefield: Zone;
   graveyard: Zone;
+  activeMana: number;
+  maxMana: number;
+  active: boolean;
 }
 
 export interface UiPlayer {
@@ -18,4 +21,7 @@ export interface UiPlayer {
   deck: UiZone;
   battlefield: UiZone;
   graveyard: UiZone;
+  activeMana: number;
+  maxMana: number;
+  active: boolean;
 }

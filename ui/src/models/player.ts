@@ -1,19 +1,37 @@
 import { GameObject, Zone } from '.';
 import { v4 as uuid } from 'uuid';
 import { Id, Card } from '.';
-import { Deck, BattleField } from './zone';
+import { Deck, BattleField, UiZone } from './zone';
 export abstract class Player implements GameObject {
   id: string;
   type = 'player';
   name: string;
   owner: null;
-  zones: Zone[];
   life: number;
+  hand: Zone;
+  graveyard: Zone;
+  battlefield: Zone;
+  deck: Zone;
+  effects: any[];
+  activeMana: number;
+  maxMana: number;
 
   constructor(name: string) {
     this.name = name;
     this.id = uuid();
   }
+}
+
+export interface UiPlayer {
+  id: string;
+  name: string;
+  life: number;
+  hand: UiZone;
+  deck: UiZone;
+  battlefield: UiZone;
+  graveyard: UiZone;
+  activeMana: number;
+  maxMana: number;
 }
 
 export class HearthstonePlayer extends Player {

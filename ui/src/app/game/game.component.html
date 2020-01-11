@@ -1,5 +1,6 @@
 <div *ngIf="display" class="wrapper">
   <div class="one">
+    <player [player]="player2"></player>
     <hand [hand]="player2.hand"></hand>
   </div>
   <div class="two">
@@ -10,5 +11,6 @@
   </div>
   <div class="four">
     <hand [hand]="player1.hand"></hand>
+    <player [player]="player1"></player>
   </div>
 </div>
