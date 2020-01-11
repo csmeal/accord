@@ -9,3 +9,11 @@ export interface Zone {
   effects: Effect[];
   cards: Map<string, Card>;
 }
+
+export interface UiZone {
+  id: string;
+  type: string;
+  maxCards: number | null;
+  effects: Effect[];
+  cards: Card[];
+}

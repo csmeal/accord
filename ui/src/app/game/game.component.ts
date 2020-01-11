@@ -21,15 +21,14 @@ export class GameComponent implements OnInit {
   display: boolean;
 
   constructor(private socketService: SocketService) {}
-
+  const;
   private setGame(g) {
-    console.log('received game');
+    // console.log('received game');
     console.log(g);
     try {
-      this.game = g;
-      this.player1 = Array.from(this.game.players.values())[0];
-      this.player2 = Array.from(this.game.players.values())[1];
-      console.log(this.game);
+      this.player1 = g.players[0];
+      this.player2 = g.players[1];
+      // console.log(this.game);
     } catch (e) {
       console.log('error:');
       console.log(e);
@@ -40,6 +39,7 @@ export class GameComponent implements OnInit {
     this.player1 = GeneratePlayer();
     this.player2 = GeneratePlayer();
     this.socketService.onMessage().subscribe((m: any) => {
+      console.log('m: ', m);
       this.setGame(m.data);
     });
     this.socketService.send({

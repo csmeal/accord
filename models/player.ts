@@ -1,4 +1,4 @@
-import { Zone } from '.';
+import { Zone, UiZone } from '.';
 
 export interface Player {
   id: string;
@@ -8,4 +8,14 @@ export interface Player {
   deck: Zone;
   battlefield: Zone;
   graveyard: Zone;
+}
+
+export interface UiPlayer {
+  id: string;
+  name: string;
+  life: number;
+  hand: UiZone;
+  deck: UiZone;
+  battlefield: UiZone;
+  graveyard: UiZone;
 }

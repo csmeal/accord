@@ -2,9 +2,35 @@ import * as express from 'express';
 import * as http from 'http';
 import * as socketIo from 'socket.io';
 import { HearthstoneController } from './cli.controller';
-import { Command } from '../../models';
+import { Command, Game, UiGame } from '../../models';
 import { StartGameCommand } from '../lib.models';
 
+export const ConvertGameToUi = (game: Game): UiGame => {
+  return {
+    name: game.name,
+    players: Array.from(game.players.values()).map(p => {
+      return {
+        ...p,
+        hand: {
+          ...p.hand,
+          cards: Array.from(p.hand.cards.values())
+        },
+        battlefield: {
+          ...p.battlefield,
+          cards: Array.from(p.battlefield.cards.values())
+        },
+        deck: {
+          ...p.deck,
+          cards: Array.from(p.battlefield.cards.values())
+        },
+        graveyard: {
+          ...p.graveyard,
+          cards: Array.from(p.graveyard.cards.values())
+        }
+      };
+    })
+  };
+};
 export class Server {
   public static readonly PORT: number = 5000;
   public app: any;
@@ -38,8 +64,11 @@ export class Server {
       console.log(command);
       this.controller.processCommand(command);
     }
+    console.log('emitting message');
+    const a = Array.from(this.controller.game.players.values());
+    console.log(a[0].hand.cards);
     this.io.emit('message', {
-      data: this.controller.game
+      data: ConvertGameToUi(this.controller.game)
     });
   }
 
