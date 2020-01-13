@@ -7,7 +7,7 @@ import {
   StartGameCommand,
   GetGameSummary,
   AttackCreatureCommand
-} from '../lib.models';
+} from '../demo';
 import { Command, Game } from '../../models';
 
 export interface GameController {

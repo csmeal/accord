@@ -3,7 +3,7 @@ import * as http from 'http';
 import * as socketIo from 'socket.io';
 import { HearthstoneController } from './cli.controller';
 import { Command, Game, UiGame } from '../../models';
-import { StartGameCommand, EndTurnCommand } from '../lib.models';
+import { StartGameCommand, EndTurnCommand } from '../demo';
 
 export const ConvertGameToUi = (game: Game): UiGame => {
   return {
