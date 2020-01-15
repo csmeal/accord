@@ -9,8 +9,8 @@ export enum CostType {
 export interface Ability {
   name: string;
   cost: Cost[];
-  validTargets:  Target[];
-  execute: (game: Game) => Action[]
+  validTargets: Target[];
+  execute: (game: Game) => Action[];
 }
 
 export interface Cost {
@@ -24,8 +24,8 @@ export enum TargetType {
 }
 
 export interface Target {
-  type: TargetType,
-  id: Id
+  type: TargetType;
+  id: Id;
 }
 export interface Card {
   id: string;
@@ -36,10 +36,6 @@ export interface Card {
   name: string;
 }
 
-
-export interface UiCard extends Card{
-abilities: 
-}
 export interface Creature extends Card {
   attack: number;
   defense: number;
