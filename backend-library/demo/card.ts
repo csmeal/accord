@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Card } from '../../models';
+import { Card, Ability } from '../../models';
 
 export abstract class BaseCard implements Card {
   id: string;
@@ -7,7 +7,7 @@ export abstract class BaseCard implements Card {
   imageUrl: string =
     'http://conceptartworld.com/wp-content/uploads/2015/03/Magdalena_Radziej_Concept_Art_Illustration_fossil-soldier.jpg';
   text: string = 'You text here.';
-  activatedEffects = null;
+  activatedEffects: Ability[];
   constructor(public name: string, public mana: number) {
     this.id = uuid();
   }
