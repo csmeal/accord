@@ -1,16 +1,23 @@
 import { Id } from './gameObject';
-import { Game, Action } from '.';
+import { Game, Action, Command } from '.';
 
 export enum CostType {
   mana,
   energy
 }
 
+export enum PlayerZone {
+  graveyard,
+  hand,
+  battlefield
+}
+
 export interface Ability {
   name: string;
   cost: Cost[];
   validTargets: Target[];
-  execute: (game: Game) => Action[];
+  usableZone: PlayerZone[];
+  dewit: Command;
 }
 
 export interface Cost {
@@ -23,9 +30,16 @@ export enum TargetType {
   creature
 }
 
+export enum FriendlyType {
+  friendly,
+  enemy,
+  neutral
+}
+
 export interface Target {
-  type: TargetType;
+  target: TargetType;
   id: Id;
+  enemy: FriendlyType;
 }
 export interface Card {
   id: string;
