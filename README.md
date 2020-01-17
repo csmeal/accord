@@ -11,6 +11,7 @@ TODO: Use path aliasing for imports
 TODO: Use readonly modifier on Command???
 TODO: Move test projects out of model section.
 TODO: Add a real todo section, use issues instead?
+TODO: Add "get other player" to game
 
 Long term
 

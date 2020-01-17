@@ -1,5 +1,6 @@
 import { Id } from './gameObject';
 import { Game, Action, Command } from '.';
+import { Player } from './player';
 
 export enum CostType {
   mana,
@@ -15,9 +16,10 @@ export enum PlayerZone {
 export interface Ability {
   name: string;
   cost: Cost[];
-  validTargets: Target[];
+
+  validTargets: (g: Game, p: Player) => boolean | Target[];
   usableZone: PlayerZone[];
-  dewit: Command;
+  dewit: (deets: any) => Command;
 }
 
 export interface Cost {
@@ -48,6 +50,7 @@ export interface Card {
   imageUrl: string;
   text: string;
   name: string;
+  abilities: Ability[];
 }
 
 export interface Creature extends Card {
