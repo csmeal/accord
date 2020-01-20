@@ -69,3 +69,7 @@ yarn.lock
 **/dist/**
 **/.log
 **/.vscode/**
+Library
+Logs
+UnityTempFile*
+UnityLockFile
