@@ -15,11 +15,13 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
   {
     placeholder = new GameObject();
     placeholder.transform.SetParent(this.transform.parent);
+    LayoutElement thisEle = this.transform.GetComponent<LayoutElement>();
     LayoutElement le = placeholder.AddComponent<LayoutElement>();
-    LayoutElement thisEle = this.GetComponent<LayoutElement>();
+
     if (thisEle != null)
     {
       //(float)(.9) * 
+      Debug.Log("Found element: " + thisEle.name);
       le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
       le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
       le.flexibleWidth = 0;
@@ -27,10 +29,13 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     }
     else
     {
-      Debug.Log("sdfs");
+      le.flexibleWidth = 0;
+      le.flexibleHeight = 0;
+      Debug.Log("Failed to find element: " + this.name);
     }
     placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
     this.parentToReturnTo = this.transform.parent;
+    this.placeholderParent = this.parentToReturnTo;
     this.transform.SetParent(this.transform.parent.parent);
 
 
@@ -39,22 +44,31 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 
   public void OnDrag(PointerEventData eventData)
   {
-    transform.position = eventData.position;
+    //Debug.Log ("OnDrag");
 
-    int newSiblingIndex = placeholder.transform.GetSiblingIndex();
-    for (int i = 0; i < parentToReturnTo.childCount; i++)
+    this.transform.position = eventData.position;
+
+    if (placeholder.transform.parent != placeholderParent)
+      placeholder.transform.SetParent(placeholderParent);
+
+    int newSiblingIndex = placeholderParent.childCount;
+
+    for (int i = 0; i < placeholderParent.childCount; i++)
     {
-
-
-
-      if (this.transform.position.x < parentToReturnTo.GetChild(i).position.x)
+      if (this.transform.position.x < placeholderParent.GetChild(i).position.x)
       {
 
-        placeholder.transform.SetSiblingIndex(i);
+        newSiblingIndex = i;
+
+        if (placeholder.transform.GetSiblingIndex() < newSiblingIndex)
+          newSiblingIndex--;
 
         break;
       }
     }
+
+    placeholder.transform.SetSiblingIndex(newSiblingIndex);
+
 
 
   }

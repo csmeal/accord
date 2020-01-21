@@ -73,3 +73,7 @@ Library
 Logs
 UnityTempFile*
 UnityLockFile
+**/Temp/
+Temp/**
+obj/
+Unity/Temp/**

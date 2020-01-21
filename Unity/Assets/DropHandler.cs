@@ -21,10 +21,24 @@ public class DropHandler : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
 
   public void OnPointerEnter(PointerEventData pointData)
   {
+    if (pointData.pointerDrag == null)
+      return;
 
+    DragCard d = pointData.pointerDrag.GetComponent<DragCard>();
+    if (d != null)
+    {
+      d.placeholderParent = this.transform;
+    }
   }
   public void OnPointerExit(PointerEventData pointData)
   {
+    if (pointData.pointerDrag == null)
+      return;
 
+    DragCard d = pointData.pointerDrag.GetComponent<DragCard>();
+    if (d != null && d.placeholderParent == this.transform)
+    {
+      d.placeholderParent = d.parentToReturnTo;
+    }
   }
 }
