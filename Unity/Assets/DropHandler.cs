@@ -15,7 +15,7 @@ public class DropHandler : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
     }
     else
     {
-      Debug.Log("draggable what");
+      Debug.Log("No parent found to drop to.");
     }
   }
 

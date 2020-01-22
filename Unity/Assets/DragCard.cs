@@ -9,7 +9,7 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
   public Transform parentToReturnTo = null;
   public Transform placeholderParent = null;
 
-  GameObject placeholder = null;
+  public GameObject placeholder = null;
 
   public void OnBeginDrag(PointerEventData eventData)
   {
@@ -20,7 +20,6 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 
     if (thisEle != null)
     {
-      //(float)(.9) * 
       Debug.Log("Found element: " + thisEle.name);
       le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
       le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
@@ -31,7 +30,6 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     {
       le.flexibleWidth = 0;
       le.flexibleHeight = 0;
-      Debug.Log("Failed to find element: " + this.name);
     }
     placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
     this.parentToReturnTo = this.transform.parent;
@@ -44,7 +42,6 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 
   public void OnDrag(PointerEventData eventData)
   {
-    //Debug.Log ("OnDrag");
 
     this.transform.position = eventData.position;
 
