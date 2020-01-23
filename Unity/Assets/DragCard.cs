@@ -4,12 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
   public Transform parentToReturnTo = null;
   public Transform placeholderParent = null;
 
   public GameObject placeholder = null;
+
+  private GameObject mouseover = null;
+
+  private Vector3 scale = new Vector3(0, 0);
+
+  void OnMouseOver()
+  {
+    //If your mouse hovers over the GameObject with the script attached, output this message
+    Debug.Log("Mouse is over GameObject.");
+  }
+
+  void OnMouseExit()
+  {
+    //The mouse is no longer hovering over the GameObject so output this message each frame
+    Debug.Log("Mouse is no longer on GameObject.");
+  }
 
   public void OnBeginDrag(PointerEventData eventData)
   {
@@ -79,4 +95,22 @@ public class DragCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     GetComponent<CanvasGroup>().blocksRaycasts = true;
     Destroy(placeholder);
   }
+
+  public void OnPointerEnter(PointerEventData pointData)
+  {
+    Debug.Log("Entering: " + this.name);
+    mouseover = Instantiate(this.gameObject); // clone box
+    scale = mouseover.transform.localScale;
+    transform.localScale += new Vector3(0.3F, .3F, 1);
+    Debug.Log(mouseover.transform.position.x);
+  }
+
+  public void OnPointerExit(PointerEventData pointData)
+  {
+    Debug.Log("Exiting: " + this.name);
+    transform.localScale = scale;
+    Destroy(mouseover);
+  }
+
+
 }
